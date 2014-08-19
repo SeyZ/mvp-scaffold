@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+'use strict';
+
+require('../config');
+var database = require('../services/database');
+
+var debug = require('debug')('scaffold');
+var nconf = require('nconf');
+
+database.connect(function (err) {
+  if (err) {
+    console.log(err.message);
+    process.exit(1);
+    return;
+  }
+
+  var app = require('../app');
+  var port = nconf.get('PORT') || nconf.get('http:port');
+  app.set('port', port);
+
+  var server = app.listen(port, function () {
+    debug('Express server listening on port ' + port);
+  });
+});

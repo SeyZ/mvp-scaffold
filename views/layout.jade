@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    title= title
+    - if (!env || env === 'development')
+        each s in css
+            link(rel='stylesheet', href='#{s.replace("public", "")}')
+        each s in src
+            script(type='text/javascript', src='#{s.replace("public", "")}')
+    - else
+        link(rel='stylesheet', href='/css/build/app.min.css')
+        script(type='text/javascript', src='/js/build/app.min.js')
+  body(ng-app="scaffold")
+    block content
